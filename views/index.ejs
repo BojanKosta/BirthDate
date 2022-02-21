@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <script src="https://unpkg.com/tesseract.js@v2.1.0/dist/tesseract.min.js"></script>
+    <title>Document</title>
+  </head>
+  <body>
+    <!--Messages Container-->
+    <div class="messages">
+      <h3 class="message"></h3>
+    </div>
+
+    <!--Heading -->
+    <div class="heading">
+      <h1 class="month-heading"></h1>
+      <h1 class="year-heading"></h1>
+    </div>
+
+    <!--Calendar Table-->
+    <div class="calendar-table">
+      <div class="day-row">
+        <div class="day">PON</div>
+        <div class="day">UTO</div>
+        <div class="day">SRI</div>
+        <div class="day">ČET</div>
+        <div class="day">PET</div>
+        <div class="day">SUB</div>
+        <div class="day">NED</div>
+      </div>
+      <div class="days-container"></div>
+      <button type="button" class="previous">Previous</button>
+      <button type="button" class="next">Next</button>
+    </div>
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span id="close" class="close">&times;</span><br /><br />
+        <input id="name" class="form-input" type="text" placeholder="Name" />
+        <input id="email" class="form-input" type="email" placeholder="Email" />
+        <input id="phone" class="form-input" type="text" placeholder="Phone" />
+        <input type="text" id="date" />
+
+        <input id="title" class="form-input" type="text" placeholder="Title" />
+        <input
+          id="description"
+          class="form-input"
+          type="text"
+          placeholder="Description"
+        />
+        <img class="photo" src="" alt="" />
+        <button id="upload-btn" type="button">Upload Picture</button>
+        <button id="add-btn" type="button" data-id="1">Add</button>
+        <button id="update-btn" type="button" data-id="1">Update</button>
+        <button id="delete-btn" type="button" data-id="1">Delete</button>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/js/script.js"></script>
+  </body>
+</html>

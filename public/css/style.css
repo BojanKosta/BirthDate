@@ -1,0 +1,283 @@
+html {
+  background-color: #212c3d;
+}
+
+.messages {
+  display: none;
+  position: relative;
+  left: 0px;
+  top: 0px;
+  background-color: #7fcc27;
+  padding: 2px;
+  max-width: 25%;
+  border-bottom-left-radius: 15px;
+  border-top-right-radius: 15px;
+  z-index: 999;
+}
+
+.message {
+  color: white;
+}
+
+.heading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.year-heading {
+  text-align: left;
+}
+
+.month-heading {
+  text-align: right;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+}
+
+.box {
+  background-color: #622323;
+  border-radius: 0.5em;
+  cursor: move;
+  overflow: hidden;
+  max-width: 20px;
+  max-height: 2vh;
+  width: 20px;
+  height: 2vh;
+  transform: rotate(0deg);
+  transition: width 1.5s, height 1.5s, transform 1s;
+}
+
+.schedule span {
+  position: relative;
+  background-color: chocolate;
+  border-radius: 50%;
+  padding: 6px;
+}
+
+.img-scheduel {
+  display: block;
+  width: 70%;
+  margin-left: 15%;
+  border-radius: 50%;
+}
+
+.over {
+  background-color: #baee7f !important;
+}
+
+.previous {
+  position: relative;
+  margin-top: 10px;
+  float: left;
+  padding: 10px;
+  background: #4551ff54;
+  border: 2px ridge #4551ff54;
+  border-radius: 3px;
+  color: #fff;
+}
+
+.next {
+  position: relative;
+  margin-top: 10px;
+  float: right;
+  padding: 10px 21.5px;
+  background: #4551ff54;
+  border: 2px ridge #4551ff54;
+  border-radius: 3px;
+  color: #fff;
+}
+
+#add-btn:hover,
+.next:hover,
+.previous:hover,
+#update-btn:hover {
+  cursor: pointer;
+  background: #5f6aff54;
+  border: 2px ridge #5f6aff54;
+}
+
+#delete-btn:hover {
+  cursor: pointer;
+  background: #e63b1054;
+  border: 2px ridge #f12a0654;
+}
+
+.calendar-table {
+  border: 1px solid black;
+  margin-top: 20px;
+  box-shadow: 0 0 3px black;
+}
+
+.day-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.day {
+  flex: 1 1 0px;
+  text-align: center;
+  background-color: #000;
+  color: #58dc74;
+  padding: 6px;
+}
+
+.week {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
+.week-day {
+  flex: 1 1 0px;
+  text-align: center;
+  background-color: #0f1724;
+  height: 12vh;
+  border-left: 2px solid rgb(0, 0, 0);
+  border-bottom: 2px solid rgb(0, 0, 0);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1px;
+  color: #fff;
+  flex-direction: column;
+}
+
+.week-day-old {
+  flex: 1 1 0px;
+  text-align: center;
+  background-color: #0f1724;
+  height: 12vh;
+  border-left: 2px solid rgb(0, 0, 0);
+  border-bottom: 2px solid rgb(0, 0, 0);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1px;
+  color: #fff;
+  flex-direction: column;
+}
+
+.schedual-container {
+  display: flex;
+}
+
+.old {
+  background-color: #0e424a !important;
+}
+
+h1 {
+  color: #ddd;
+  text-align: center;
+  flex: 1 1 0px;
+}
+
+/* The Modal */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+  position: relative;
+  background-color: #d1d1d1;
+  margin: auto;
+  padding: 0;
+  text-align: center;
+  border: 1px solid #888;
+  width: 80%;
+  height: 95%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  animation-name: animatetop;
+  animation-duration: 0.4s;
+}
+
+.modal-content input {
+  display: block;
+  text-align: center;
+  margin: 10px auto;
+  width: 40%;
+  height: 5%;
+  border: 1px solid #0e424a;
+  border-radius: 5px;
+}
+
+.photo {
+  width: 15%;
+  display: block;
+  margin: 0 auto;
+}
+
+@keyframes animatetop {
+  from {
+    top: -300px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
+}
+
+#add-btn,
+#update-btn {
+  padding: 10px 50px;
+  margin-top: 10px;
+  background: #4551ffba;
+  border: 1px ridge #4551ff54;
+  border-radius: 5px;
+  color: #fff;
+}
+
+#upload-btn {
+  display: block;
+  margin: 10px auto;
+  padding: 5px 10px;
+  background: #55b169ba;
+  border: 1px ridge #48665054;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+}
+
+#delete-btn {
+  padding: 10px 50px;
+  margin-top: 10px;
+  background: #ff4545ba;
+  border: 1px ridge #f7313154;
+  border-radius: 5px;
+  color: #fff;
+}
+
+#upload-btn:hover {
+  background: #6fdf87ba;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
