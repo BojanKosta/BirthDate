@@ -20,6 +20,8 @@
       <h1 class="year-heading"></h1>
     </div>
 
+    <button id="list-btn" type="button">Open List</button>
+
     <!--Calendar Table-->
     <div class="calendar-table">
       <div class="day-row">
@@ -58,6 +60,15 @@
         <button id="add-btn" type="button" data-id="1">Add</button>
         <button id="update-btn" type="button" data-id="1">Update</button>
         <button id="delete-btn" type="button" data-id="1">Delete</button>
+      </div>
+    </div>
+
+    <!-- The Modal -->
+    <div id="list-modal" class="modal">
+      <!-- Modal content -->
+      <div class="modal-content list-modal-content">
+        <span id="close-list" class="close">&times;</span><br /><br />
+        <div class="list-container"></div>
       </div>
     </div>
 

@@ -19,7 +19,6 @@ router.get("/get_birthdays", async (req, res) => {
   const current = Number(req.query.current);
   const end = Number(req.query.end);
 
-  console.log(start + ' ' + current + ' ' + end)
   await Birthday.aggregate([
     { $addFields: { month: { $month: "$birth_date" } } },
     { $match: { $or: [{ month: start }, { month: current }, { month: end }] } },
@@ -43,7 +42,7 @@ router.post("/add_birthday", async (req, res) => {
       res.send({ status: "ok", message: "Birthday added successfully." })
     )
     .catch(() =>
-      res.status(401).send({
+      res.status(400).send({
         status: "error",
         message:
           "It is not possible to add birthday at this moment please check your phone and email.",
@@ -68,7 +67,7 @@ router.put("/update_birthday", async (req, res) => {
         res.send({ status: "ok", message: "Birthday updated successfully.." })
       )
       .catch(() =>
-        res.status(401).send({
+        res.status(400).send({
           status: "error",
           message:
             "It is not possible to update birthday at this moment please try later..",
@@ -94,6 +93,20 @@ router.delete("/delete_birthday", async (req, res) => {
         })
       );
   });
+});
+
+router.get("/get_one_birthday", async (req, res) => {
+  const id = req.query.id;
+
+  Birthday.findOne({ id })
+    .then((result) => res.send({ status: "ok", birthdays: result }))
+    .catch(() =>
+      res.status(500).send({
+        status: "error",
+        message:
+          "It is not possible to get birthday at this moment please try latter.",
+      })
+    );
 });
 
 module.exports = router;

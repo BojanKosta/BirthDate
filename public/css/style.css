@@ -4,7 +4,7 @@ html {
 
 .messages {
   display: none;
-  position: relative;
+  position: absolute;
   left: 0px;
   top: 0px;
   background-color: #7fcc27;
@@ -56,7 +56,7 @@ html {
   position: relative;
   background-color: chocolate;
   border-radius: 50%;
-  padding: 6px;
+  padding: 2px;
 }
 
 .img-scheduel {
@@ -92,10 +92,11 @@ html {
   color: #fff;
 }
 
-#add-btn:hover,
 .next:hover,
 .previous:hover,
-#update-btn:hover {
+#add-btn:hover,
+#update-btn:hover,
+#list-btn:hover {
   cursor: pointer;
   background: #5f6aff54;
   border: 2px ridge #5f6aff54;
@@ -191,6 +192,7 @@ h1 {
   overflow: auto;
   background-color: rgb(0, 0, 0);
   background-color: rgba(0, 0, 0, 0.4);
+  z-index: 999;
 }
 
 .modal-content {
@@ -235,11 +237,12 @@ h1 {
 }
 
 #add-btn,
-#update-btn {
+#update-btn,
+#list-btn {
   padding: 10px 50px;
   margin-top: 10px;
-  background: #4551ffba;
-  border: 1px ridge #4551ff54;
+  background: #4551ff54;
+  border: 2px ridge #4551ff54;
   border-radius: 5px;
   color: #fff;
 }
@@ -281,3 +284,57 @@ h1 {
   text-decoration: none;
   cursor: pointer;
 }
+
+/*** List Content ***/
+
+.text-white {
+  color: #fff;
+}
+
+#list-modal,
+.list-modal-content {
+  width: 99%;
+  height: 99%;
+  z-index: 998;
+}
+
+.btn-none {
+  padding: 0px;
+  margin: 0px;
+  border: none;
+}
+
+.birthday-container,
+.btn-none {
+  width: 20vw;
+  height: 30vh;
+  background-color: #212c3d;
+}
+
+.info-1 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.name {
+  margin-left: 10px;
+}
+
+.date {
+  margin-right: 10px;
+}
+
+.pictures-container {
+  width: 20vw;
+}
+
+.img-list {
+  width: 20vw;
+  max-width: 15vh;
+}
+
+/* 
+.birthday-details {
+  height: 20vh;
+} */

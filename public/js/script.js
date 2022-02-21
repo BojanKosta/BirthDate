@@ -3,6 +3,7 @@ const addBtn = document.getElementById("add-btn");
 const uploadBtn = document.getElementById("upload-btn");
 const updateBtn = document.getElementById("update-btn");
 const deleteBtn = document.getElementById("delete-btn");
+const listBtn = document.getElementById("list-btn");
 const messages = document.querySelector(".messages");
 const messageTXT = document.querySelector(".message");
 const nameInput = document.getElementById("name");
@@ -13,6 +14,7 @@ const photoInput = document.querySelector(".photo");
 const titleInput = document.getElementById("title");
 const descriptionInput = document.getElementById("description");
 const close = document.getElementById("close");
+const closeList = document.getElementById("close-list");
 
 var currentMonth = dt.getMonth() + 1;
 var presentMonth = dt.getMonth() + 1;
@@ -29,11 +31,10 @@ var title = "";
 var description = "";
 var startDate = "";
 var endDate = "";
-
 var fullDateAttr = "";
 
 // Add birthdays to rendered calendar
-const addBirthdays = async (start, current, end) => {
+addBirthdays = async (start, current, end) => {
   const result = await axios
     .get("/birthday/get_birthdays", {
       params: {
@@ -43,11 +44,10 @@ const addBirthdays = async (start, current, end) => {
       },
     })
     .catch(function (error) {
-      console.log(error);
+      console.error(error);
     });
 
   const birtdhayArr = result.data.birthdays;
-  console.log(birtdhayArr);
 
   birtdhayArr.forEach((birthday) => {
     let attr = birthday.birth_date.substring(5, 10);
@@ -103,6 +103,32 @@ document.querySelector(".next").addEventListener("click", function () {
   }
 });
 
+// Render birthday list
+listBtn.addEventListener("click", async () => {
+  const result = await axios
+    .get("/birthday/get_all_birthdays")
+    .then(function (result) {
+      var modal = document.getElementById("list-modal");
+      modal.style.display = "block";
+
+      var span = document.getElementById("close-list");
+      span.onclick = function () {
+        modal.style.display = "none";
+      };
+
+      window.onclick = function (event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      };
+
+      createListBirthday(result.data.birthdays);
+    })
+    .catch(function (error) {
+      console.error(error);
+    });
+});
+
 // Display calendar and render days with birthdays
 function renderCalendar() {
   const month = currentMonth;
@@ -154,7 +180,6 @@ function renderCalendar() {
   }
 
   startDate = mon;
-  console.log("start date " + startDate);
 
   for (w = 1; w <= 6; w++) {
     allDays += `<div class = "week week-${w}">`;
@@ -240,9 +265,6 @@ function renderCalendar() {
     currentMonthConverted = 12;
   }
 
-  console.log(newMonthCoverted - 1);
-
-  console.log("new month " + newMonthCoverted);
   calendar.innerHTML = allDays;
 
   addBirthdays(startDate, currentMonthConverted, newMonthCoverted);
@@ -260,6 +282,7 @@ function openModal(id) {
     photo = "";
     updateBtn.style.display = "none";
     deleteBtn.style.display = "none";
+    uploadBtn.style.display = "block";
     addBtn.style.display = "inline-block";
 
     const dayDom = document.getElementById(id);
@@ -278,6 +301,7 @@ function openModal(id) {
   } else {
     updateBtn.style.display = "inline-block";
     deleteBtn.style.display = "inline-block";
+    uploadBtn.style.display = "none";
     addBtn.style.display = "none";
   }
 
@@ -305,7 +329,7 @@ function openModal(id) {
 uploadBtn.addEventListener("click", async function () {
   let date = document.getElementById("date").value;
 
-  if (new Date(date) > dt) {
+  if (new Date(date) > dt || new Date(date) < new Date("1996-02-01")) {
     date = 2021 + date.substring(4);
   }
   const API = `https://api.nasa.gov/planetary/apod?api_key=uTDBSMDyePEE2CIamVMajqWEFhktmAIS4xeFx4De&date=${date}`;
@@ -313,7 +337,6 @@ uploadBtn.addEventListener("click", async function () {
   await axios
     .get(API)
     .then(function (response) {
-      console.log(response);
       if (response.data.media_type == "video") {
         photo = "./img/default.jpg";
       } else {
@@ -377,14 +400,11 @@ addBtn.addEventListener("click", async function () {
       messages.style.display = "block";
 
       setTimeout(() => {
-        console.log("this is the third message");
         messages.style.display = "none";
       }, 2000);
-
-
     })
     .catch(function (error) {
-      console.log(error);
+      console.error(error);
     });
 
   if (name && email && phone && isDateValid && photo && status !== "error") {
@@ -409,25 +429,25 @@ addBtn.addEventListener("click", async function () {
         <p class = "user-description">${description}</p>
     </div>`;
 
-    close.click();
-
+      close.click();
     }
-
 
     //renderDay(id);
 
     photo = "";
   } else {
-    console.log(
-      "All input fields and photo are mandatory and phone number and email must be unique."
-    );
+    messageTXT.textContent =
+      "All input fields and photo are mandatory and phone number and email must be unique.";
+    messages.style.display = "block";
+
+    setTimeout(() => {
+      messages.style.display = "none";
+    }, 2000);
   }
 });
 
 // Update birthday
 updateBtn.addEventListener("click", async function () {
-  console.log("update");
-
   let name = nameInput.value;
   let email = emailInput.value;
   let phone = phoneInput.value;
@@ -460,17 +480,14 @@ updateBtn.addEventListener("click", async function () {
       updateBirthdatUI.children[6].textContent = title;
       updateBirthdatUI.children[7].textContent = description;
 
-
       setTimeout(() => {
-        console.log("this is the third message");
         messages.style.display = "none";
       }, 2000);
 
       close.click();
-
     })
     .catch(function (error) {
-      console.log(error);
+      console.error(error);
     });
 });
 
@@ -492,21 +509,18 @@ deleteBtn.addEventListener("click", async function () {
       document.getElementById(updateId).remove();
 
       setTimeout(() => {
-        console.log("this is the third message");
         messages.style.display = "none";
       }, 2000);
 
       close.click();
-
     })
     .catch(function (error) {
-      console.log(error);
+      console.error(error);
     });
 });
 
 update = (birthday) => {
   isEdit = true;
-  console.log(birthday);
 
   let picture = birthday.children[1].getAttribute("src");
   let name = birthday.children[2].textContent;
@@ -526,57 +540,76 @@ update = (birthday) => {
   descriptionInput.value = description;
 };
 
-// Render day of the month
-function renderDay(id) {
-  const day = document.getElementById(id);
-  let scheduels = Array.from(day.children);
-  scheduels = scheduels[1].children;
-  var arrObj = [];
+updateList = async (id) => {
+  isEdit = true;
 
-  if (scheduels.length > 0) {
-    for (i = 0; i < scheduels.length; i++) {
-      let obj = {};
-
-      let id = scheduels[i].getAttribute("id");
-      let count = scheduels[i].children[0].innerText;
-      let picture = scheduels[i].children[1].getAttribute("src");
-      let name = scheduels[i].children[2].textContent;
-      let email = scheduels[i].children[3].textContent;
-      let phone = scheduels[i].children[4].textContent;
-      let date = scheduels[i].children[5].textContent;
-
-      console.log(scheduels[i]);
-      obj = {
+  const result = await axios
+    .get("/birthday/get_one_birthday", {
+      params: {
         id,
-        count,
-        picture,
-        name,
-        date,
-        phone,
-        email,
-      };
-      arrObj.push(obj);
+      },
+    })
+    .catch(function (error) {
+      console.error(error);
+    });
+
+  updateId = id;
+  nameInput.value = result.data.birthdays.name;
+  emailInput.value = result.data.birthdays.email;
+  phoneInput.value = result.data.birthdays.phone;
+  dateInput.value = result.data.birthdays.birth_date.substring(0, 10);
+  photoInput.src = result.data.birthdays.photo;
+  titleInput.value = result.data.birthdays.title;
+  descriptionInput.value = result.data.birthdays.description;
+  openModal(id);
+  closeList.click();
+};
+
+createListBirthday = (birthdays) => {
+  let html = "";
+
+  birthdays.forEach((birthday) => {
+    let date = birthday.birth_date.substring(0, 10);
+    var comCount = 1;
+    let day = date.substring(8);
+    let month = date.substring(7, 9);
+
+    html += `
+    <button day = ${day} month= ${month} class="btn-none" id= '${birthday.id}' onClick="updateList('${birthday.id}') ">
+        <div class="birthday-container">
+            <div class="birthday-details">
+                <div class='info-1 info'>
+                    <p class="name text-white"><span>Name:</span><br>${birthday.name}</p>
+                    <p class="date text-white"><span>Date:</span><br>${date}</p>
+                </div>
+                <div class='info-2 info'>
+                    <p class="email text-white"><span>Email:</span><br> ${birthday.email}</p>
+                </div>
+            </div>
+            <div class="pictures-container">
+                <img class = "img-list" src="${birthday.photo}"></img>    
+            </div>
+        </div>
+    </button>
+        `;
+
+    var rows = 4;
+
+    if (screen.width < 1200 && screen.width > 800) {
+      rows = 3;
+    } else if (screen.width < 800 && screen.width > 600) {
+      rows = 2;
+    } else if (screen.width < 600) {
+      rows = 1;
     }
 
-    arrObj = arrObj.sort((a, b) => (a.date > b.date ? 1 : -1));
-
-    const dayId = day.getAttribute("day");
-
-    day.children[1].innerHTML = "";
-    for (a = 0; a < arrObj.length; a++) {
-      day.children[1].innerHTML += `
-            <div id=${
-              arrObj[a].id
-            }   class = "box schedule" onClick="update(this)">
-                <span class=count>${a + 1}</span>
-                <img draggable="false" class = "img-scheduel" src="${
-                  arrObj[a].picture
-                }">
-                <p>${arrObj[a].name}</p>
-                <p>${arrObj[a].email}</p>
-                <p>${arrObj[a].phone}</p>
-                <p>${arrObj[a].date}</p>
-            </div>`;
+    if (comCount % rows === 0) {
+      html += `<div class="break"></div>`;
     }
-  }
-}
+    comCount++;
+  });
+
+  document.querySelector(".list-container").innerHTML = html;
+
+  isEdit = true;
+};
